@@ -1,14 +1,11 @@
-const sort1 = [3, 2, 1, 13, 8, 5, 0, 1];
-const sort2 = [105, 79, 100, 110];
-
 let mergeSortFunc;
 
 export default mergeSortFunc = function mergeSort(array) {
-    if (array.length === 1) {
+    if (array.length <= 1) {
         return array;
     }
 
-    let mid = array.length / 2;
+    let mid = Math.floor(array.length / 2);
     let first = array.slice(0, mid);
     let last = array.slice(mid, array.length);
 
@@ -44,5 +41,3 @@ function merge(first, last) {
     }
     return tempArray;
 }
-
-console.log(mergeSort(sort2));
