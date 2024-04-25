@@ -1,0 +1,12 @@
+{
+  "name": "binary_search_treetop",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "I will be creating a balanced binary search tree using an array of sorted data.",
+  "main": "merge.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
