@@ -2,9 +2,6 @@ import Node from "./node.js";
 import mergeSortFunc from "./merge.js";
 
 class Tree {
-    constructor() {
-        this.node = null;
-    }
 
     buildTree(array) {
         array = this.filterSort(array);
@@ -13,8 +10,6 @@ class Tree {
         }
         let mid = Math.floor(array.length / 2);
         let root = new Node(array[mid]);
-
-        this.root = root;
 
         root.left = this.buildTree(array.slice(0, mid - 1));
         root.right = this.buildTree(array.slice(mid + 1));
@@ -27,11 +22,11 @@ class Tree {
             return;
         }
         if (node.right !== null) {
-            prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+            this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
         console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
         if (node.left !== null) {
-            prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+            this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
     }
 
@@ -44,11 +39,9 @@ class Tree {
 }
 
 let newTree = new Tree;
-newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-newTree.prettyPrint(newTree.node);
-console.log(newTree.node);
-
-console.log(newTree);
+let myNode = newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+newTree.prettyPrint(myNode);
+console.log(myNode.left.right);
 
 
 
