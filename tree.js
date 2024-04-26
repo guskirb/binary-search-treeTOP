@@ -92,6 +92,10 @@ class Tree {
             }
         }
 
+        if (!current) {
+            return console.log('Enter a valid value!');
+        }
+
         let replace = current.right ? current.right : current.left;
 
         while (replace) {
@@ -148,20 +152,18 @@ class Tree {
         }
         return parent;
     }
+
+    levelOrder(callback) {
+
+    }
 }
 
 let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-newTree.insert(400);
-newTree.insert(500);
-newTree.insert(450);
-newTree.insert(350);
-newTree.insert(325);
-newTree.insert(320);
-newTree.insert(323);
-newTree.insert(6);
+
 newTree.prettyPrint(newTree.tree);
-newTree.deleteItem(3);
+newTree.deleteItem(2);
+console.log(newTree.findValue(67));
 newTree.prettyPrint(newTree.tree);
 
 
