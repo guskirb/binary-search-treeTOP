@@ -154,31 +154,36 @@ class Tree {
     }
 
     levelOrder(node, callback) {
-        let array = [];
-        let array2 = [];
-        let array3 = [];
-        array.push(node);
         if (!node) {
             return;
         }
 
-        array = array.concat(this.levelOrder(node.left), this.levelOrder(node.right))
-
+        let array = [];
         if (!callback) {
-            return array;
+            array.push(node.data);
+        } else {
+            array.push(callback(node.data))
         }
+
+        if (node.left) {
+            array = array.concat(this.levelOrder(node.left, callback));
+        }
+        if (node.right) {
+            array = array.concat(this.levelOrder(node.right, callback));
+        }
+        return array;
     }
 }
 
 let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-
-newTree.prettyPrint(newTree.tree);
-newTree.deleteItem(2);
 console.log(newTree.findValue(67));
-console.log(newTree.levelOrder((newTree.tree)));
+console.log(newTree.levelOrder(newTree.tree));
 newTree.prettyPrint(newTree.tree);
 
+function callbackAdd(value) {
+    return value * 2;
+}
 
 
 
