@@ -154,6 +154,33 @@ class Tree {
     }
 
     levelOrder(node, callback) {
+
+    }
+
+    inOrder(node, callback) {
+        if (!node) {
+            return;
+        }
+        let array = [];
+
+        if (node.left) {
+            array = array.concat(this.inOrder(node.left, callback));
+        }
+
+        if (!callback) {
+            array.push(node.data);
+        } else {
+            array.push(callback(node.data))
+        }
+
+
+        if (node.right) {
+            array = array.concat(this.inOrder(node.right, callback));
+        }
+        return array;
+    }
+
+    preOrder(node, callback) {
         if (!node) {
             return;
         }
@@ -166,10 +193,31 @@ class Tree {
         }
 
         if (node.left) {
-            array = array.concat(this.levelOrder(node.left, callback));
+            array = array.concat(this.preOrder(node.left, callback));
         }
         if (node.right) {
-            array = array.concat(this.levelOrder(node.right, callback));
+            array = array.concat(this.preOrder(node.right, callback));
+        }
+        return array;
+    }
+
+    postOrder(node, callback) {
+        if (!node) {
+            return;
+        }
+
+        let array = [];
+
+        if (node.left) {
+            array = array.concat(this.postOrder(node.left, callback));
+        }
+        if (node.right) {
+            array = array.concat(this.postOrder(node.right, callback));
+        }
+        if (!callback) {
+            array.push(node.data);
+        } else {
+            array.push(callback(node.data))
         }
         return array;
     }
@@ -178,10 +226,10 @@ class Tree {
 let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 console.log(newTree.findValue(67));
-console.log(newTree.levelOrder(newTree.tree));
+console.log(newTree.postOrder(newTree.tree));
 newTree.prettyPrint(newTree.tree);
 
-function callbackAdd(value) {
+function callbackDouble(value) {
     return value * 2;
 }
 
