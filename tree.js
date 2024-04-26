@@ -45,8 +45,14 @@ class Tree {
 
         while (current.right || current.left) {
             if (value < current.data) {
+                if (!current.left) {
+                    break;
+                }
                 current = current.left;
             } else {
+                if (!current.right) {
+                    break;
+                }
                 current = current.right;
             }
         }
@@ -73,45 +79,73 @@ class Tree {
         return current;
     }
 
-    deleteItem(node, value) {
-        if (node === null) {
-            return node;
-        }
+    deleteItem(value) {
+        let current = this.tree;
 
-        if (value < node.data) {
-            node.left = this.deleteItem(node.left, value);
-        } else if (value > node.data) {
-            node.right = this.deleteItem(node.right, value);
-        } else {
-            if (node.left === null) {
-                return node.right;
-            } else if (node.right === null) {
-                return node.left;
+        while (current) {
+            if (value > current.data) {
+                current = current.right;
+            } else if (value < current.data) {
+                current = current.left;
+            } else {
+                break;
             }
-
-            node.data = this.minValue(node.right);
-            node.right = this.deleteItem(node.right, node.data)
         }
-        return node;
+
+        let replace = current.right;
+
+        while (replace) {
+            if (replace.data > value && replace.left) {
+                replace = replace.left;
+            } else if (replace.data < value && replace.right) {
+                replace = replace.right;
+            } else {
+                break;
+            }
+        }
+
+        let replaceParent = this.getParent(replace.data);
+
+        current.data = replace.data;
+
+        console.log(current);
+        console.log(replace);
+        console.log(replaceParent);
     }
 
-    minValue(node) {
-        let value = node.data;
-        while (node.left !== null) {
-            value = node.left.data;
-            node = node.left;
+    getParent(value) {
+        let current = this.tree;
+        let parent;
+
+        while (current) {
+            if (value > current.data) {
+                if (current.right.data === value) {
+                    parent = current;
+                }
+                current = current.right;
+            } else if (value < current.data) {
+                if (current.left.data === value) {
+                    parent = current;
+                }
+                current = current.left;
+            } else {
+                break;
+            }
         }
-        return value;
+        return parent;
     }
 }
 
 let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-// let myNode = newTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+
 newTree.insert(400);
 newTree.insert(500);
 newTree.insert(450);
+newTree.insert(350);
+newTree.insert(325);
+newTree.insert(320);
 newTree.prettyPrint(newTree.tree);
-newTree.deleteItem(newTree.tree, 67);
+newTree.deleteItem(324);
 newTree.prettyPrint(newTree.tree);
 
 
