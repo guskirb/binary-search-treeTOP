@@ -153,8 +153,20 @@ class Tree {
         return parent;
     }
 
-    levelOrder(callback) {
+    levelOrder(node, callback) {
+        let array = [];
+        let array2 = [];
+        let array3 = [];
+        array.push(node);
+        if (!node) {
+            return;
+        }
 
+        array = array.concat(this.levelOrder(node.left), this.levelOrder(node.right))
+
+        if (!callback) {
+            return array;
+        }
     }
 }
 
@@ -164,6 +176,7 @@ let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 newTree.prettyPrint(newTree.tree);
 newTree.deleteItem(2);
 console.log(newTree.findValue(67));
+console.log(newTree.levelOrder((newTree.tree)));
 newTree.prettyPrint(newTree.tree);
 
 
