@@ -92,7 +92,7 @@ class Tree {
             }
         }
 
-        let replace = current.right;
+        let replace = current.right ? current.right : current.left;
 
         while (replace) {
             if (replace.data > value && replace.left) {
@@ -108,9 +108,23 @@ class Tree {
 
         current.data = replace.data;
 
-        console.log(current);
-        console.log(replace);
-        console.log(replaceParent);
+        if (replaceParent.left && replaceParent.left.data === current.data) {
+            if (!replaceParent.left.right && !replaceParent.left.left) {
+                replaceParent.left = null;
+            } else if (replaceParent.left.left !== null) {
+                replaceParent.left = replaceParent.left.left;
+            } else if (replaceParent.left.right) {
+                replaceParent.left = replaceParent.left.right;
+            }
+        } else {
+            if (!replaceParent.right.right && !replaceParent.right.left) {
+                replaceParent.right = null;
+            } else if (replaceParent.right.left !== null) {
+                replaceParent.right = replaceParent.right.left;
+            } else if (replaceParent.right.right) {
+                replaceParent.right = replaceParent.right.right;
+            }
+        }
     }
 
     getParent(value) {
@@ -144,8 +158,10 @@ newTree.insert(450);
 newTree.insert(350);
 newTree.insert(325);
 newTree.insert(320);
+newTree.insert(323);
+newTree.insert(6);
 newTree.prettyPrint(newTree.tree);
-newTree.deleteItem(324);
+newTree.deleteItem(3);
 newTree.prettyPrint(newTree.tree);
 
 
