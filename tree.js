@@ -4,6 +4,7 @@ import mergeSortFunc from "./merge.js";
 class Tree {
     constructor(array) {
         this.tree = this.buildTree(array);
+        this.treeDepth = 0;
     }
 
     buildTree(array) {
@@ -240,6 +241,109 @@ class Tree {
         }
         return array;
     }
+
+    height(value) {
+        let current = this.findValue(value);
+        let height = 0;
+
+        while (current) {
+            if (current.left) {
+                height++
+                current = current.left;
+            } else if (current.right) {
+                height++
+                current = current.right;
+            } else {
+                break;
+            }
+        }
+        return height;
+    }
+
+    depth(value) {
+        let current = this.tree;
+        let depth = 0;
+
+        while (current && current.data !== value) {
+            if (value < current.data) {
+                current = current.left;
+                depth++;
+            } else {
+                current = current.right;
+                depth++;
+            }
+        }
+        if (current === null) {
+            console.log("Enter a valid number")
+        }
+        return depth;
+    }
+
+    totalDepth(node, depth = 0) {
+        if (!node) {
+            return;
+        }
+        if (!node.right && !node.left) {
+            if (this.treeDepth < depth) {
+                this.treeDepth = depth;
+            }
+            return depth;
+        }
+        this.totalDepth(node.left, depth + 1);
+        this.totalDepth(node.right, depth + 1);
+
+        return this.treeDepth;
+    }
+
+    leftDeep = 0;
+
+    leftDepth(node, depth = 0) {
+        if (!node) {
+            return;
+        }
+        if (!node.right && !node.left) {
+            if (this.leftDeep < depth) {
+                this.leftDeep = depth;
+            }
+            return depth;
+        }
+        this.leftDepth(node.left, depth + 1);
+        this.leftDepth(node.right, depth + 1);
+
+        return this.leftDepth;
+    }
+
+    rightDeep = 0;
+
+    rightDepth(node, depth = 0) {
+        if (!node) {
+            return;
+        }
+        if (!node.right && !node.left) {
+            if (this.rightDeep < depth) {
+                this.rightDeep = depth;
+            }
+            return depth;
+        }
+        this.rightDepth(node.left, depth + 1);
+        this.rightDepth(node.right, depth + 1);
+
+        return this.rightDepth;
+    }
+
+    isBalanced() {
+        this.leftDepth(this.tree.left);
+        this.rightDepth(this.tree.right);
+
+        let left = this.leftDeep;
+        let right = this.rightDeep;
+
+        if (!(left === right) && !(left + 1 === right) && !(left === right + 1)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -247,6 +351,11 @@ let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 console.log(newTree.findValue(67));
 console.log(newTree.levelOrder(newTree.tree, callbackDouble));
 newTree.prettyPrint(newTree.tree);
+console.log(newTree.depth(12));
+console.log(newTree.height(8));
+console.log(newTree.isBalanced());
+console.log(newTree.totalDepth(newTree.tree));
+
 
 function callbackDouble(value) {
     return value * 2;
