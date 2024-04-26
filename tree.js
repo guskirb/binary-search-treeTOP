@@ -274,7 +274,7 @@ class Tree {
             }
         }
         if (current === null) {
-            console.log("Enter a valid number")
+            return "Enter a valid number";
         }
         return depth;
     }
