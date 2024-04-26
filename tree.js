@@ -154,7 +154,26 @@ class Tree {
     }
 
     levelOrder(node, callback) {
+        let queue = [];
+        let array = [];
+        let current = node;
 
+        while (current) {
+            if (!callback) {
+                array.push(current.data);
+            } else {
+                array.push(callback(current.data))
+            }
+
+            if (current.left) {
+                queue.push(current.left);
+            }
+            if (current.right) {
+                queue.push(current.right);
+            }
+            current = queue.shift();
+        }
+        return array;
     }
 
     inOrder(node, callback) {
@@ -226,7 +245,7 @@ class Tree {
 let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
 console.log(newTree.findValue(67));
-console.log(newTree.postOrder(newTree.tree));
+console.log(newTree.levelOrder(newTree.tree, callbackDouble));
 newTree.prettyPrint(newTree.tree);
 
 function callbackDouble(value) {
