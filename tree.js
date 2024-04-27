@@ -5,6 +5,9 @@ class Tree {
     constructor(array) {
         this.tree = this.buildTree(array);
         this.treeDepth = 0;
+        this.rightDepth = 0;
+        this.leftDepth = 0;
+        this.isBalanced;
     }
 
     buildTree(array) {
@@ -295,48 +298,48 @@ class Tree {
         return this.treeDepth;
     }
 
-    leftDeep = 0;
-
-    leftDepth(node, depth = 0) {
+    getLeftDepth(node, depth = 0) {
         if (!node) {
             return;
         }
         if (!node.right && !node.left) {
-            if (this.leftDeep < depth) {
-                this.leftDeep = depth;
+            if (this.leftDepth < depth) {
+                this.leftDepth = depth;
             }
             return depth;
         }
-        this.leftDepth(node.left, depth + 1);
-        this.leftDepth(node.right, depth + 1);
+        this.getLeftDepth(node.left, depth + 1);
+        this.getLeftDepth(node.right, depth + 1);
 
-        return this.leftDepth;
+        return this.getLeftDepth;
     }
 
     rightDeep = 0;
 
-    rightDepth(node, depth = 0) {
+    getRightDepth(node, depth = 0) {
         if (!node) {
             return;
         }
         if (!node.right && !node.left) {
-            if (this.rightDeep < depth) {
-                this.rightDeep = depth;
+            if (this.rightDepth < depth) {
+                this.rightDepth = depth;
             }
             return depth;
         }
-        this.rightDepth(node.left, depth + 1);
-        this.rightDepth(node.right, depth + 1);
+        this.getRightDepth(node.left, depth + 1);
+        this.getRightDepth(node.right, depth + 1);
 
-        return this.rightDepth;
+        return this.getRightDepth;
     }
 
     isBalanced() {
-        this.leftDepth(this.tree.left);
-        this.rightDepth(this.tree.right);
+        this.rightDepth = 0;
+        this.leftDepth = 0;
+        this.getLeftDepth(this.tree.left);
+        this.getRightDepth(this.tree.right);
 
-        let left = this.leftDeep;
-        let right = this.rightDeep;
+        let left = this.leftDepth;
+        let right = this.rightDepth;
 
         if (!(left === right) && !(left + 1 === right) && !(left === right + 1)) {
             return false;
@@ -344,18 +347,42 @@ class Tree {
             return true;
         }
     }
+
+    rebalance() {
+        let array = this.inOrder(this.tree);
+        this.tree = this.buildTree(array);
+    }
 }
 
-let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+function driver() {
+    let newTree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+    console.log('Creating tree from array');
+    newTree.prettyPrint(newTree.tree);
+    console.log('Is it balanced?');
+    console.log(newTree.isBalanced());
+    console.log('Level Order Traversal');
+    console.log(newTree.levelOrder(newTree.tree));
+    console.log('In Order Traversal');
+    console.log(newTree.inOrder(newTree.tree));
+    console.log('Pre Order Traversal');
+    console.log(newTree.preOrder(newTree.tree));
+    console.log('Post Order Traversal');
+    console.log(newTree.postOrder(newTree.tree));
+    console.log('Unbalancing Tree');
+    newTree.insert(100);
+    newTree.insert(125);
+    newTree.insert(150);
+    newTree.insert(175);
+    newTree.prettyPrint(newTree.tree);
+    console.log('Is it balanced?');
+    console.log(newTree.isBalanced());
+    newTree.rebalance();
+    newTree.prettyPrint(newTree.tree);
+    console.log('Is it balanced?');
+    console.log(newTree.isBalanced());
+}
 
-console.log(newTree.findValue(67));
-console.log(newTree.levelOrder(newTree.tree, callbackDouble));
-newTree.prettyPrint(newTree.tree);
-console.log(newTree.depth(12));
-console.log(newTree.height(8));
-console.log(newTree.isBalanced());
-console.log(newTree.totalDepth(newTree.tree));
-
+driver();
 
 function callbackDouble(value) {
     return value * 2;
